@@ -33,7 +33,7 @@ bug fix process:
 	<dependency>
   		<groupId>com.alipay.euler</groupId>
   		<artifactId>andfix</artifactId>
-  		<version>0.3.0</version>
+  		<version>0.3.1</version>
   		<type>aar</type>
 	</dependency>
 	```
@@ -41,7 +41,7 @@ or gradle dependency:
 
 	```
 	dependencies {
-   		compile 'com.alipay.euler:andfix:0.3.0@aar'
+   		compile 'com.alipay.euler:andfix:0.3.1@aar'
 	}
 	```
 
@@ -72,11 +72,11 @@ To ensure that these classes can be found after running an obfuscation and stati
 
 * native method
 
-	com.euler.cloudfix.CloudFix
+	com.alipay.euler.andfix.AndFix
 	
 * annotation
 
-	com.euler.cloudfix.annotation.MethodReplace
+	com.alipay.euler.andfix.annotation.MethodReplace
 
 	
 	```
@@ -85,14 +85,14 @@ To ensure that these classes can be found after running an obfuscation and stati
     	native <methods>;
 	}
 	```
-
+	
 ## Developer Tool
 
 The patch make tool is apkpatch.
 
 ### How to get?
 
-Apkpatch can be found [here](https://github.com/alibaba/AndFix/raw/master/tools/apkpatch.zip)
+Apkpatch can be found [here](https://github.com/alibaba/AndFix/raw/master/tools/apkpatch-1.0.3.zip)
 
 ### How to use?
 
@@ -100,8 +100,8 @@ Apkpatch can be found [here](https://github.com/alibaba/AndFix/raw/master/tools/
 
 ```
 usage: apkpatch -f <new> -t <old> -o <output> -k <keystore> -p <***> -a <alias> -e <***>
- -a,--alias <alias>     alias.
- -e,--epassword <***>   entry password.
+ -a,--alias <alias>     keystore entry alias.
+ -e,--epassword <***>   keystore entry password.
  -f,--from <loc>        new Apk file path.
  -k,--keystore <loc>    keystore path.
  -n,--name <name>       patch name.
@@ -113,9 +113,9 @@ usage: apkpatch -f <new> -t <old> -o <output> -k <keystore> -p <***> -a <alias> 
 * merge .apatch files:
 
 ```
-usage: apkpatch -m <apatch_path...> -k <keystore> -p <***> -a <alias> -e <***>
- -a,--alias <alias>     alias.
- -e,--epassword <***>   entry password.
+usage: apkpatch -m <apatch_path...> -o <output> -k <keystore> -p <***> -a <alias> -e <***>
+ -a,--alias <alias>     keystore entry alias.
+ -e,--epassword <***>   keystore entry password.
  -k,--keystore <loc>    keystore path.
  -m,--merge <loc...>    path of .apatch files.
  -n,--name <name>       patch name.
@@ -123,6 +123,20 @@ usage: apkpatch -m <apatch_path...> -k <keystore> -p <***> -a <alias> -e <***>
  -p,--kpassword <***>   keystore password.
 ```
 
+### Code Protection
+
+In order to achieve Code Protection,you might have used some techniques such as below:
+
+* ProGuard
+	
+	you must save the mapping.txt, so your new version's build can use it with "-applymapping".
+	
+	<http://proguard.sourceforge.net/manual/usage.html#applymapping>
+	
+* Self Modifying Code, such as Bangcle 
+
+	to generate patch file use raw apk best.
+	
 ## Running sample
 
 1. import samples/AndFixDemo to your IDE, set AndFixDemo depend on AndFix(library project or aar).
@@ -136,6 +150,11 @@ usage: apkpatch -m <apatch_path...> -k <keystore> -p <***> -a <alias> -e <***>
 ## API Documentation
 
 The libraries javadoc can be found [here](https://rawgit.com/alibaba/AndFix/master/docs/index.html)
+
+## Security
+
+-  verify the signature of patch file
+-  verify the fingerprint of optimize file
 
 ## Contact
 
